@@ -26,8 +26,17 @@ conn.connect((err) => {
 });
 
 app.get("/hae", (req, res) => {
-  const contents = fs.readFileSync("./sanakirja.txt");
-  res.send(contents);
+  const contents = fs.readFileSync("./sanakirja.txt", "utf-8");
+
+  const lines = contents.split("\n");
+  const jsonObject = {};
+
+  for (let row of lines) {
+    const [word, translation] = row.split(" ");
+    jsonObject[word] = translation;
+  }
+
+  res.json(jsonObject);
 });
 
 app.get("/hae/:sana", (req, res) => {
@@ -35,26 +44,23 @@ app.get("/hae/:sana", (req, res) => {
   const contents = fs.readFileSync("./sanakirja.txt", "utf-8");
 
   const lines = contents.split("\n");
+  const jsonObject = {};
 
   for (let row of lines) {
-    const words = row.split(" ");
-
-    if (words[0] === searchWord) {
-      if (words[1]) {
-        return res.send(words[1]);
-      } else {
-        return res.status(404).send("Käännöstä ei löydy");
-      }
+    const [word, translation] = row.split(" ");
+    if (word == searchWord) {
+      jsonObject[word] = translation;
+      res.json(jsonObject);
     }
   }
 
   res.status(404).send("Sanaa ei löydy");
 });
 
-app.use(express.text());
 app.post("/lisaa", (req, res) => {
-  let word = req.body;
-  fs.appendFileSync("./sanakirja.txt", "\n" + word);
+  let body = req.body;
+  let line = Object.entries(body)[0];
+  fs.appendFileSync("./sanakirja.txt", "\n" + `${line[0]} ${line[1]}`);
   res.status(200).send();
 });
 
