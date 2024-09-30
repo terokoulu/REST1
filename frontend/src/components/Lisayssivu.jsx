@@ -8,9 +8,18 @@ function Lisayssivu() {
 
   const handleSubmit = (e) => {
     e.preventDefault();
-    addItem(wordInput, translationInput);
-    setWordInput("");
-    setTranslationInput("");
+    try {
+      if (wordInput === "" || translationInput === "") {
+        throw new Error("Sanapari puuttuu");
+      }
+
+      if (addItem(wordInput, translationInput) == 200) {
+       setWordInput("");
+        setTranslationInput("");
+      }
+    } catch (error) {
+      console.log("Virhe sanan lisäämisessä");
+    }
   };  
 
   return (
