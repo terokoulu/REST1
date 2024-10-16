@@ -1,0 +1,15 @@
+CREATE DATABASE urheilijayhdistys;
+USE urheilijayhdistys;
+
+CREATE TABLE urheilijat (
+	etunimi VARCHAR(20),
+	sukunimi VARCHAR(40),
+	kutsumanimi VARCHAR(20),
+	syntymavuosi DATE,
+	paino DOUBLE,
+	kuva_url VARCHAR(100),
+	laji VARCHAR(30),
+	saavutukset VARCHAR(150)
+);
+
+GRANT SELECT, INSERT, UPDATE, DELETE ON urheilijat TO 'kt'@'localhost';

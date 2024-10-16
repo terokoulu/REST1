@@ -1,0 +1,16 @@
+* {
+  box-sizing: border-box;
+}
+
+.site-title {
+  font-size: 2rem;
+  padding: 30px;
+}
+
+.container {
+  margin: 1rem;
+}
+
+.nav {
+  box-sizing: border-box;
+}
